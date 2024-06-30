@@ -10,7 +10,7 @@ class TaskModel extends Equatable {
   final String date;
   bool? isDone;
   bool? isDeleted;
-  bool? isFavorite;
+  bool isFavorite;
 
   TaskModel(
       {required this.title,
@@ -18,10 +18,9 @@ class TaskModel extends Equatable {
       required this.date,
       this.isDone,
       this.isDeleted,
-      this.isFavorite}) {
+      this.isFavorite = false}) {
     isDone = isDone ?? false;
     isDeleted = isDeleted ?? false;
-    isFavorite = isFavorite ?? false;
   }
 
   TaskModel copyWith({

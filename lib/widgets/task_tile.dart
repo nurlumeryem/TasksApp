@@ -14,10 +14,6 @@ class TaskTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void _removeOrDeleteTask(BuildContext context, TaskModel task) {
-      context.read<TasksBloc>().add(RemoveOrDeleteTaskEvent(task: task));
-    }
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -27,6 +23,9 @@ class TaskTile extends StatelessWidget {
               task.isFavorite == false
                   ? const Icon(Icons.star_outline)
                   : const Icon(Icons.star),
+              const SizedBox(
+                width: 10,
+              ),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,15 +51,21 @@ class TaskTile extends StatelessWidget {
             ],
           ),
         ),
-        Checkbox(
-          value: task.isDone ?? false,
-          onChanged: (value) {
-            context.read<TasksBloc>().add(UpdateTaskEvent(task: task));
-          },
+        Row(
+          children: [
+            Checkbox(
+              value: task.isDone ?? false,
+              onChanged: (value) {
+                context.read<TasksBloc>().add(UpdateTaskEvent(task: task));
+              },
+            ),
+          ],
         ),
         PopupMenu(
             task: task,
-            cancelOrDeleteCallback: () => _removeOrDeleteTask(context, task),
+            cancelOrDeleteCallback: () {
+              context.read<TasksBloc>().add(DeleteTaskEvent(task: task));
+            },
             likeOrDislike: () => context
                 .read<TasksBloc>()
                 .add(FavoriteOrUnfavoriteTaskEvent(task: task))),

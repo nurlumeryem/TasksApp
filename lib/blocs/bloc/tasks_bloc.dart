@@ -10,7 +10,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     on<AddTaskEvent>(_addTask);
     on<UpdateTaskEvent>(_updateTask);
     on<DeleteTaskEvent>(_deleteTask);
-    on<RemoveTaskEvent>(_removeTask);
+    // on<RemoveTaskEvent>(_removeTask);
     on<FavoriteOrUnfavoriteTaskEvent>(_favoriteOrUnfavoriteTask);
   }
 
@@ -46,20 +46,22 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
   }
 
   void _deleteTask(DeleteTaskEvent event, Emitter<TasksState> emit) {
-    emit(TasksState(
-        pendingTasks: state.pendingTasks,
-        completedTasks: state.completedTasks,
-        favoriteTasks: state.favoriteTasks,
-        removedTasks: List.from(state.removedTasks)..remove(event.task)));
+    emit(state.copyWith(
+      pendingTasks: List.from(state.pendingTasks)..remove(event.task),
+      completedTasks: List.from(state.completedTasks)..remove(event.task),
+      favoriteTasks: List.from(state.favoriteTasks)..remove(event.task),
+      removedTasks: List.from(state.removedTasks)..add(event.task),
+    ));
   }
 
   void _removeTask(RemoveTaskEvent event, Emitter<TasksState> emit) {
-    emit(TasksState(
-        pendingTasks: List.from(state.pendingTasks)..remove(event.task),
-        completedTasks: List.from(state.completedTasks)..remove(event.task),
-        favoriteTasks: List.from(state.favoriteTasks)..remove(event.task),
-        removedTasks: List.from(state.removedTasks)
-          ..add(event.task.copyWith(isDeleted: true))));
+    emit(state.copyWith(
+      pendingTasks: List.from(state.pendingTasks)..remove(event.task),
+      completedTasks: List.from(state.completedTasks)..remove(event.task),
+      favoriteTasks: List.from(state.favoriteTasks)..remove(event.task),
+      removedTasks: List.from(state.removedTasks)
+        ..remove(event.task.copyWith(isDeleted: true)),
+    ));
   }
 
   void _favoriteOrUnfavoriteTask(
@@ -69,8 +71,10 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
 
     if (favoriteTasks.contains(task)) {
       favoriteTasks = List.from(favoriteTasks)..remove(task);
+      event.task.isFavorite = false;
     } else {
       favoriteTasks = List.from(favoriteTasks)..add(task);
+      event.task.isFavorite = true;
     }
 
     emit(state.copyWith(

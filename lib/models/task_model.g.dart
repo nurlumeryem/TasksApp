@@ -12,7 +12,7 @@ TaskModel _$TaskModelFromJson(Map<String, dynamic> json) => TaskModel(
       isDone: json['isDone'] as bool?,
       isDeleted: json['isDeleted'] as bool?,
       description: json['descripton'] as String,
-      isFavorite: json['isFavorite'] as bool?,
+      isFavorite: json['isFavorite'] as bool,
     );
 
 Map<String, dynamic> _$TaskModelToJson(TaskModel instance) => <String, dynamic>{

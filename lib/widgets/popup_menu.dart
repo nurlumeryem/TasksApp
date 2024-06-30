@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tasks_app/blocs/bloc/tasks_bloc.dart';
-import 'package:tasks_app/blocs/bloc_exports.dart';
 import 'package:tasks_app/models/task_model.dart';
 
 class PopupMenu extends StatelessWidget {
@@ -17,10 +15,6 @@ class PopupMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void _handleFavoriteToggle() {
-      context.read<TasksBloc>().add(FavoriteOrUnfavoriteTaskEvent(task: task));
-    }
-
     return PopupMenuButton(
       itemBuilder: task.isDeleted == false
           ? ((context) => [
@@ -33,20 +27,20 @@ class PopupMenu extends StatelessWidget {
                   onTap: () {},
                 ),
                 PopupMenuItem(
+                  onTap: likeOrDislike,
                   child: TextButton.icon(
-                    onPressed: _handleFavoriteToggle, // Call the method here
-                    icon: task.isFavorite == false
-                        ? const Icon(Icons.bookmark)
-                        : const Icon(Icons.bookmark_remove),
-                    label: task.isFavorite == false
-                        ? const Text('Add to Bookmarks')
-                        : const Text('Remove from Bookmarks'),
+                    onPressed: null,
+                    icon: task.isFavorite
+                        ? const Icon(Icons.bookmark_remove)
+                        : const Icon(Icons.bookmark_add_outlined),
+                    label: task.isFavorite
+                        ? const Text('Remove from Bookmarks')
+                        : const Text('Add to Bookmarks'),
                   ),
                 ),
                 PopupMenuItem(
-                  onTap: cancelOrDeleteCallback,
                   child: TextButton.icon(
-                    onPressed: null,
+                    onPressed: cancelOrDeleteCallback,
                     icon: const Icon(Icons.delete),
                     label: const Text('Delete'),
                   ),
@@ -62,9 +56,8 @@ class PopupMenu extends StatelessWidget {
                   onTap: () {},
                 ),
                 PopupMenuItem(
-                  onTap: cancelOrDeleteCallback,
                   child: TextButton.icon(
-                    onPressed: null,
+                    onPressed: cancelOrDeleteCallback,
                     icon: const Icon(Icons.delete_forever),
                     label: const Text('Delete Forever'),
                   ),

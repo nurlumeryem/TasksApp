@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tasks_app/blocs/bloc_exports.dart';
 import 'package:tasks_app/models/task_model.dart';
+import 'package:tasks_app/screens/edit_task_screen.dart';
 import 'package:tasks_app/widgets/popup_menu.dart';
 
 class TaskTile extends StatelessWidget {
@@ -11,6 +12,19 @@ class TaskTile extends StatelessWidget {
   }) : super(key: key);
 
   final TaskModel task;
+
+  void _editTask(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) => SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: EditTaskScreen(oldTask: task),
+              ),
+            ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,13 +76,18 @@ class TaskTile extends StatelessWidget {
           ],
         ),
         PopupMenu(
-            task: task,
-            cancelOrDeleteCallback: () {
-              context.read<TasksBloc>().add(DeleteTaskEvent(task: task));
-            },
-            likeOrDislike: () => context
-                .read<TasksBloc>()
-                .add(FavoriteOrUnfavoriteTaskEvent(task: task))),
+          task: task,
+          cancelOrDeleteCallback: () {
+            context.read<TasksBloc>().add(DeleteTaskEvent(task: task));
+          },
+          likeOrDislikeCallback: () => context
+              .read<TasksBloc>()
+              .add(FavoriteOrUnfavoriteTaskEvent(task: task)),
+          editCallback: () {
+            Navigator.of(context).pop();
+            _editTask(context);
+          },
+        ),
       ],
     );
   }

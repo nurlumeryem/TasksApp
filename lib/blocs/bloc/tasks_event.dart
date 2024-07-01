@@ -64,3 +64,14 @@ class FavoriteOrUnfavoriteTaskEvent extends TasksEvent {
   @override
   List<Object> get props => [task];
 }
+
+class EditTaskEvent extends TasksEvent {
+  final TaskModel oldTask;
+  final TaskModel newTask;
+  const EditTaskEvent({
+    required this.oldTask,
+    required this.newTask,
+  });
+  @override
+  List<Object> get props => [oldTask, newTask];
+}

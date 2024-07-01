@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:tasks_app/blocs/bloc_exports.dart';
 import 'package:tasks_app/models/task_model.dart';
-
 part 'tasks_event.dart';
 part 'tasks_state.dart';
 
@@ -10,70 +9,61 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     on<AddTaskEvent>(_addTask);
     on<UpdateTaskEvent>(_updateTask);
     on<DeleteTaskEvent>(_deleteTask);
-    // on<RemoveTaskEvent>(_removeTask);
     on<FavoriteOrUnfavoriteTaskEvent>(_favoriteOrUnfavoriteTask);
+    on<EditTaskEvent>(_editTask);
   }
 
   void _addTask(AddTaskEvent event, Emitter<TasksState> emit) {
+    final state = this.state;
     emit(TasksState(
         pendingTasks: List.from(state.pendingTasks)..add(event.task),
         completedTasks: state.completedTasks,
-        favoriteTasks: state.favoriteTasks));
+        favoriteTasks: state.favoriteTasks,
+        deletedTasks: state.deletedTasks));
   }
 
   void _updateTask(UpdateTaskEvent event, Emitter<TasksState> emit) {
-    final task = event.task;
-
+    final state = this.state;
     List<TaskModel> pendingTasks = state.pendingTasks;
     List<TaskModel> completedTasks = state.completedTasks;
-    task.isDone == false
+    event.task.isDone == false
         ? {
-            pendingTasks = List.from(pendingTasks)..remove(task),
+            pendingTasks = List.from(pendingTasks)..remove(event.task),
             completedTasks = List.from(completedTasks)
-              ..insert(0, task.copyWith(isDone: true)),
+              ..insert(0, event.task.copyWith(isDone: true)),
           }
         : {
-            completedTasks = List.from(completedTasks)..remove(task),
+            completedTasks = List.from(completedTasks)..remove(event.task),
             pendingTasks = List.from(pendingTasks)
-              ..insert(0, task.copyWith(isDone: false)),
+              ..insert(0, event.task.copyWith(isDone: false)),
           };
-    emit(state.copyWith(
+    emit(TasksState(
       pendingTasks: pendingTasks,
       completedTasks: completedTasks,
       favoriteTasks: state.favoriteTasks,
-      removedTasks: state.removedTasks,
+      deletedTasks: state.deletedTasks,
     ));
   }
 
   void _deleteTask(DeleteTaskEvent event, Emitter<TasksState> emit) {
-    emit(state.copyWith(
+    final state = this.state;
+    emit(TasksState(
       pendingTasks: List.from(state.pendingTasks)..remove(event.task),
       completedTasks: List.from(state.completedTasks)..remove(event.task),
       favoriteTasks: List.from(state.favoriteTasks)..remove(event.task),
-      removedTasks: List.from(state.removedTasks)..add(event.task),
-    ));
-  }
-
-  void _removeTask(RemoveTaskEvent event, Emitter<TasksState> emit) {
-    emit(state.copyWith(
-      pendingTasks: List.from(state.pendingTasks)..remove(event.task),
-      completedTasks: List.from(state.completedTasks)..remove(event.task),
-      favoriteTasks: List.from(state.favoriteTasks)..remove(event.task),
-      removedTasks: List.from(state.removedTasks)
-        ..remove(event.task.copyWith(isDeleted: true)),
+      deletedTasks: List.from(state.deletedTasks)..remove(event.task),
     ));
   }
 
   void _favoriteOrUnfavoriteTask(
       FavoriteOrUnfavoriteTaskEvent event, Emitter<TasksState> emit) {
-    final task = event.task;
+    final state = this.state;
     List<TaskModel> favoriteTasks = state.favoriteTasks;
-
-    if (favoriteTasks.contains(task)) {
-      favoriteTasks = List.from(favoriteTasks)..remove(task);
+    if (favoriteTasks.contains(event.task)) {
+      favoriteTasks = List.from(favoriteTasks)..remove(event.task);
       event.task.isFavorite = false;
     } else {
-      favoriteTasks = List.from(favoriteTasks)..add(task);
+      favoriteTasks = List.from(favoriteTasks)..add(event.task);
       event.task.isFavorite = true;
     }
 
@@ -81,7 +71,26 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
       favoriteTasks: favoriteTasks,
     ));
   }
+
+  void _editTask(EditTaskEvent event, Emitter<TasksState> emit) {
+    List<TaskModel> pendingTasks = List.from(state.pendingTasks);
+    // Update the pending tasks
+    if (pendingTasks.contains(event.oldTask)) {
+      pendingTasks
+        ..remove(event.oldTask)
+        ..insert(0, event.newTask);
+    }
+
+    // Emit the new state with the updated lists
+    emit(TasksState(
+        pendingTasks: pendingTasks,
+        completedTasks: state.completedTasks,
+        favoriteTasks: state.favoriteTasks,
+        deletedTasks: state.deletedTasks));
+  }
 }
+
+
 
 /*  void _favoriteOrUnfavoriteTask(
       FavoriteOrUnfavoriteTaskEvent event, Emitter<TasksState> emit) {

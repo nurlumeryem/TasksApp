@@ -17,7 +17,7 @@ class _TabsScreenState extends State<TabsScreen> {
   final List<Map<String, dynamic>> _pageDetalis = [
     {'pageName': PendingTasksScreen(), 'title': 'Pending Tasks'},
     {'pageName': const CompletedTasksScreen(), 'title': 'Completed Tasks'},
-    {'pageName': const FavoriteTasksScreen(), 'title': 'FavoriteTasks'}
+    {'pageName': const FavoriteTasksScreen(), 'title': 'FavoriteTasks'},
   ];
 
   var _selectedPageIndex = 0;
@@ -37,7 +37,9 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //backgroundColor: Colors.deepPurpleAccent,
       appBar: AppBar(
+        backgroundColor: Colors.deepPurpleAccent.shade100,
         title: Text(_pageDetalis[_selectedPageIndex]['title']),
         actions: [
           IconButton(
@@ -64,8 +66,9 @@ class _TabsScreenState extends State<TabsScreen> {
         },
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.incomplete_circle_sharp),
-              label: 'Pending Tasks'),
+            icon: Icon(Icons.incomplete_circle_sharp),
+            label: 'Pending Tasks',
+          ),
           BottomNavigationBarItem(
               icon: Icon(Icons.done), label: 'Completed Tasks'),
           BottomNavigationBarItem(

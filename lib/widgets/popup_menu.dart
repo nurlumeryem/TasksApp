@@ -3,14 +3,16 @@ import 'package:tasks_app/models/task_model.dart';
 
 class PopupMenu extends StatelessWidget {
   final VoidCallback cancelOrDeleteCallback;
-  final VoidCallback likeOrDislike;
+  final VoidCallback likeOrDislikeCallback;
+  final VoidCallback editCallback;
   final TaskModel task;
 
   const PopupMenu({
     Key? key,
     required this.task,
     required this.cancelOrDeleteCallback,
-    required this.likeOrDislike,
+    required this.likeOrDislikeCallback,
+    required this.editCallback,
   }) : super(key: key);
 
   @override
@@ -20,16 +22,15 @@ class PopupMenu extends StatelessWidget {
           ? ((context) => [
                 PopupMenuItem(
                   child: TextButton.icon(
-                    onPressed: null,
+                    onPressed: editCallback,
                     icon: const Icon(Icons.edit),
                     label: const Text('Edit'),
                   ),
-                  onTap: () {},
+                  onTap: null,
                 ),
                 PopupMenuItem(
-                  onTap: likeOrDislike,
                   child: TextButton.icon(
-                    onPressed: null,
+                    onPressed: likeOrDislikeCallback,
                     icon: task.isFavorite
                         ? const Icon(Icons.bookmark_remove)
                         : const Icon(Icons.bookmark_add_outlined),

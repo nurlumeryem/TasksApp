@@ -4,13 +4,13 @@ class TasksState extends Equatable {
   final List<TaskModel> pendingTasks;
   final List<TaskModel> completedTasks;
   final List<TaskModel> favoriteTasks;
-  final List<TaskModel> removedTasks;
+  final List<TaskModel> deletedTasks;
 
   const TasksState({
     this.pendingTasks = const <TaskModel>[],
     this.completedTasks = const <TaskModel>[],
     this.favoriteTasks = const <TaskModel>[],
-    this.removedTasks = const <TaskModel>[],
+    this.deletedTasks = const <TaskModel>[],
   });
 
   @override
@@ -18,7 +18,7 @@ class TasksState extends Equatable {
         pendingTasks,
         completedTasks,
         favoriteTasks,
-        removedTasks,
+        deletedTasks,
       ];
 
   TasksState copyWith({
@@ -31,7 +31,7 @@ class TasksState extends Equatable {
       pendingTasks: pendingTasks ?? this.pendingTasks,
       completedTasks: completedTasks ?? this.completedTasks,
       favoriteTasks: favoriteTasks ?? this.favoriteTasks,
-      removedTasks: removedTasks ?? this.removedTasks,
+      deletedTasks: removedTasks ?? this.deletedTasks,
     );
   }
 }

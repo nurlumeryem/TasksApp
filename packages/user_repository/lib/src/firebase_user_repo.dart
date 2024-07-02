@@ -1,8 +1,8 @@
 import 'dart:developer'; // hata ayıklama
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:tasks_app/src/model/user_model.dart';
-import 'package:tasks_app/src/user_repo.dart';
+import 'model/user_model.dart';
+import 'user_repo.dart';
 
 class FirebaseUserRepo implements UserRepository {
   final FirebaseAuth _firebaseAuth;

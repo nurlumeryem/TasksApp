@@ -1,4 +1,4 @@
-import 'package:tasks_app/src/model/user_model.dart';
+import 'model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class UserRepository {

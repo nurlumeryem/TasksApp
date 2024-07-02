@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:tasks_app/src/entities/entities.dart';
+import '../entities/entities.dart';
 
 class UserModel extends Equatable {
   final String userId;

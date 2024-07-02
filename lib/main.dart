@@ -1,19 +1,19 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 import 'package:tasks_app/blocs/bloc_exports.dart';
-
 import 'package:tasks_app/screens/tabs_screen.dart';
 
-import 'package:tasks_app/services/app_router.dart';
-
-void main() {
-  runApp(MyApp(appRouter: AppRouter()));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.appRouter});
+  const MyApp({
+    super.key,
+  });
 
-  final AppRouter appRouter;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -25,7 +25,6 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: const TabsScreen(),
-        onGenerateRoute: appRouter.onGenerateRoute,
       ),
     );
   }

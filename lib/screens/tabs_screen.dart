@@ -15,7 +15,7 @@ class TabsScreen extends StatefulWidget {
 
 class _TabsScreenState extends State<TabsScreen> {
   final List<Map<String, dynamic>> _pageDetalis = [
-    {'pageName': PendingTasksScreen(), 'title': 'Pending Tasks'},
+    {'pageName': const PendingTasksScreen(), 'title': 'Pending Tasks'},
     {'pageName': const CompletedTasksScreen(), 'title': 'Completed Tasks'},
     {'pageName': const FavoriteTasksScreen(), 'title': 'FavoriteTasks'},
   ];
@@ -30,7 +30,7 @@ class _TabsScreenState extends State<TabsScreen> {
                 child: Container(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: AddTaskScreen(),
+              child: const AddTaskScreen(),
             )));
   }
 

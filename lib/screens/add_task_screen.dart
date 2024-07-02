@@ -29,7 +29,7 @@ class AddTaskScreen extends StatelessWidget {
             child: TextField(
               autofocus: true,
               controller: titleController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   label: Text('Title'), border: OutlineInputBorder()),
             ),
           ),
@@ -38,7 +38,7 @@ class AddTaskScreen extends StatelessWidget {
             controller: descriptionController,
             minLines: minLines,
             maxLines: maxLines,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
                 label: Text('Description'), border: OutlineInputBorder()),
           ),
           Row(

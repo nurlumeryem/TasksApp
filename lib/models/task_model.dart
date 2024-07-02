@@ -4,6 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'task_model.g.dart';
 
 @JsonSerializable()
+// ignore: must_be_immutable
 class TaskModel extends Equatable {
   final String title;
   final String description;

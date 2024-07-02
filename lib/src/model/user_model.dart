@@ -1,22 +1,23 @@
 import 'package:equatable/equatable.dart';
 import 'package:tasks_app/src/entities/entities.dart';
 
-class User extends Equatable {
+class UserModel extends Equatable {
   final String userId;
   final String name;
   final String email;
 
-  const User({required this.userId, required this.email, required this.name});
+  const UserModel(
+      {required this.userId, required this.email, required this.name});
 
   //, bazı senaryolarda kullanıcı nesnesinin varsayılan bir değeri olarak kullanabileceğiniz sabit bir nesne sağlar.
-  static const empty = User(userId: '', email: '', name: '');
+  static const empty = UserModel(userId: '', email: '', name: '');
 
-  User copyWith({
+  UserModel copyWith({
     String? userId,
     String? name,
     String? email,
   }) {
-    return User(
+    return UserModel(
       userId: userId ?? this.userId,
       name: name ?? this.name,
       email: email ?? this.email,
@@ -27,8 +28,9 @@ class User extends Equatable {
     return UserEntity(userId: userId, email: email, name: name);
   }
 
-  static User fromEntity(UserEntity entity) {
-    return User(userId: entity.userId, email: entity.email, name: entity.name);
+  static UserModel fromEntity(UserEntity entity) {
+    return UserModel(
+        userId: entity.userId, email: entity.email, name: entity.name);
   }
 
   @override

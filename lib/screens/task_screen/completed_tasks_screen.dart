@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tasks_app/blocs/bloc_exports.dart';
 import 'package:tasks_app/widgets/tasks_list.dart';
 
-import '../models/task_model.dart';
+import '../../models/task_model.dart';
 
 // ignore: must_be_immutable
 class CompletedTasksScreen extends StatelessWidget {

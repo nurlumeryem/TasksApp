@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tasks_app/blocs/bloc_exports.dart';
 import 'package:tasks_app/models/task_model.dart';
-import 'package:tasks_app/screens/edit_task_screen.dart';
+import 'package:tasks_app/screens/task_screen/edit_task_screen.dart';
 import 'package:tasks_app/widgets/popup_menu.dart';
 
 class TaskTile extends StatelessWidget {

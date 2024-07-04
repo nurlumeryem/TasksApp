@@ -1,12 +1,11 @@
-import 'dart:developer'; // hata ayıklama
+import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'model/user_model.dart';
-import 'user_repo.dart';
+import 'package:user_repository/user_repository.dart';
 
 class FirebaseUserRepo implements UserRepository {
   final FirebaseAuth _firebaseAuth;
-  final usersCollection = FirebaseFirestore.instance.collection('user');
+  final usersCollection = FirebaseFirestore.instance.collection('users');
 
   FirebaseUserRepo({
     FirebaseAuth? firebaseAuth,
@@ -14,7 +13,6 @@ class FirebaseUserRepo implements UserRepository {
 
   @override
   Stream<User?> get user {
-    //Stream, kullanıcı her giriş yaptığında, çıkış yaptığında veya kimlik doğrulama durumu değiştiğinde tetiklenir.
     return _firebaseAuth.authStateChanges().map((firebaseUser) {
       return firebaseUser;
     });
@@ -32,12 +30,16 @@ class FirebaseUserRepo implements UserRepository {
   }
 
   @override
-  Future<UserModel> signUp(UserModel userModel, String password) async {
+  Future<MyUser> signUp(MyUser myUser, String password) async {
     try {
       UserCredential user = await _firebaseAuth.createUserWithEmailAndPassword(
-          email: userModel.email, password: password);
-      userModel = userModel.copyWith(userId: user.user!.uid);
-      return userModel;
+          email: myUser.email, password: password);
+
+      myUser = myUser.copyWith(userId: user.user!.uid);
+
+      await setUserData(myUser);
+
+      return myUser;
     } catch (e) {
       log(e.toString());
       rethrow;
@@ -45,14 +47,19 @@ class FirebaseUserRepo implements UserRepository {
   }
 
   @override
-  Future<void> setUserData(UserModel userModel) async {
+  Future<void> setUserData(MyUser myUser) async {
     try {
       await usersCollection
-          .doc(userModel.userId)
-          .set(userModel.toEntity().toDocument());
+          .doc(myUser.userId)
+          .set(myUser.toEntity() as Map<String, dynamic>);
     } catch (e) {
       log(e.toString());
       rethrow;
     }
+  }
+
+  @override
+  Future<void> logOut() async {
+    await _firebaseAuth.signOut();
   }
 }

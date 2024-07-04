@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tasks_app/screens/add_task_screen.dart';
-import 'package:tasks_app/screens/completed_tasks_screen.dart';
-import 'package:tasks_app/screens/favorite_tasks_screen.dart';
-import 'package:tasks_app/screens/my_drawer.dart';
-import 'package:tasks_app/screens/pending_screen.dart';
+import 'package:tasks_app/screens/task_screen/add_task_screen.dart';
+import 'package:tasks_app/screens/task_screen/completed_tasks_screen.dart';
+import 'package:tasks_app/screens/task_screen/favorite_tasks_screen.dart';
+import 'package:tasks_app/screens/task_screen/my_drawer.dart';
+import 'package:tasks_app/screens/task_screen/pending_screen.dart';
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({super.key});

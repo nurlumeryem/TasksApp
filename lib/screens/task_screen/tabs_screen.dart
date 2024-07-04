@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tasks_app/screens/task_screen/add_task_screen.dart';
 import 'package:tasks_app/screens/task_screen/completed_tasks_screen.dart';
 import 'package:tasks_app/screens/task_screen/favorite_tasks_screen.dart';
-import 'package:tasks_app/screens/task_screen/my_drawer.dart';
+import 'package:tasks_app/screens/task_screen/home_screen.dart';
+
 import 'package:tasks_app/screens/task_screen/pending_screen.dart';
 
 class TabsScreen extends StatefulWidget {
@@ -14,13 +15,26 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
-  final List<Map<String, dynamic>> _pageDetalis = [
-    {'pageName': const PendingTasksScreen(), 'title': 'Pending Tasks'},
-    {'pageName': const CompletedTasksScreen(), 'title': 'Completed Tasks'},
-    {'pageName': const FavoriteTasksScreen(), 'title': 'FavoriteTasks'},
+  final List<Map<String, dynamic>> _pageDetails = [
+    {'pageName': const HomeScreen(), 'title': 'HomeScreen', 'showTitle': false},
+    {
+      'pageName': const PendingTasksScreen(),
+      'title': 'Pending Tasks',
+      'showTitle': true
+    },
+    {
+      'pageName': const CompletedTasksScreen(),
+      'title': 'Completed Tasks',
+      'showTitle': true
+    },
+    {
+      'pageName': const FavoriteTasksScreen(),
+      'title': 'FavoriteTasks',
+      'showTitle': true
+    },
   ];
 
-  var _selectedPageIndex = 0;
+  var _selectedPageIndex = 1;
 
   void _addTask(BuildContext context) {
     showModalBottomSheet(
@@ -37,20 +51,16 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: Colors.deepPurpleAccent,
       appBar: AppBar(
-        backgroundColor: Colors.deepPurpleAccent.shade100,
-        title: Text(_pageDetalis[_selectedPageIndex]['title']),
-        actions: [
-          IconButton(
-            onPressed: () => _addTask(context),
-            icon: const Icon(Icons.add),
-          )
-        ],
+        backgroundColor: Colors.deepPurpleAccent,
+        title: _pageDetails[_selectedPageIndex]['showTitle']
+            ? Text(_pageDetails[_selectedPageIndex]['title'])
+            : null,
       ),
-      drawer: const MyDrawer(),
-      body: _pageDetalis[_selectedPageIndex]['pageName'],
-      floatingActionButton: _selectedPageIndex == 0
+      body: SafeArea(
+        child: _pageDetails[_selectedPageIndex]['pageName'],
+      ),
+      floatingActionButton: _selectedPageIndex == 1
           ? FloatingActionButton(
               onPressed: () => _addTask(context),
               tooltip: 'Add Task',
@@ -64,9 +74,16 @@ class _TabsScreenState extends State<TabsScreen> {
             _selectedPageIndex = index;
           });
         },
+        selectedItemColor: const Color.fromARGB(255, 72, 30, 185),
+        unselectedItemColor: Colors.grey,
+        selectedFontSize: 14,
+        unselectedFontSize: 14,
         items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home Screen'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.incomplete_circle_sharp),
+            icon: Icon(
+              Icons.incomplete_circle_sharp,
+            ),
             label: 'Pending Tasks',
           ),
           BottomNavigationBarItem(

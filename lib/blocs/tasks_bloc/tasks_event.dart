@@ -75,3 +75,13 @@ class EditTaskEvent extends TasksEvent {
   @override
   List<Object> get props => [oldTask, newTask];
 }
+
+class SearchTaskEvent extends TasksEvent {
+  final String task;
+  const SearchTaskEvent({
+    required this.task,
+  });
+
+  @override
+  List<Object> get props => [task];
+}

@@ -24,38 +24,6 @@ class TaskModel extends Equatable {
     isDeleted = isDeleted ?? false;
   }
 
-  TaskModel copyWith({
-    String? title,
-    String? description,
-    String? date,
-    String? userId,
-    String? email,
-    String? name,
-    bool? isDone,
-    bool? isDeleted,
-    bool? isFavorite,
-  }) {
-    return TaskModel(
-      title: title ?? this.title,
-      description: description ?? this.description,
-      date: date ?? this.date,
-      isDone: isDone ?? this.isDone,
-      isDeleted: isDeleted ?? this.isDeleted,
-      isFavorite: isFavorite ?? this.isFavorite,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'title': title,
-      'description': description,
-      'date': date,
-      'isDone': isDone,
-      'isDeleted': isDeleted,
-      'isFavorite': isFavorite
-    };
-  }
-
   factory TaskModel.fromJson(Map<String, dynamic> json) =>
       _$TaskModelFromJson(json);
 

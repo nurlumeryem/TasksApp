@@ -11,6 +11,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     on<DeleteTaskEvent>(_deleteTask);
     on<FavoriteOrUnfavoriteTaskEvent>(_favoriteOrUnfavoriteTask);
     on<EditTaskEvent>(_editTask);
+    on<SearchTaskEvent>(_searchTask);
   }
 
   void _addTask(AddTaskEvent event, Emitter<TasksState> emit) {
@@ -24,19 +25,41 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
 
   void _updateTask(UpdateTaskEvent event, Emitter<TasksState> emit) {
     final state = this.state;
-    List<TaskModel> pendingTasks = state.pendingTasks;
-    List<TaskModel> completedTasks = state.completedTasks;
-    event.task.isDone == false
-        ? {
-            pendingTasks = List.from(pendingTasks)..remove(event.task),
-            completedTasks = List.from(completedTasks)
-              ..insert(0, event.task.copyWith(isDone: true)),
-          }
-        : {
-            completedTasks = List.from(completedTasks)..remove(event.task),
-            pendingTasks = List.from(pendingTasks)
-              ..insert(0, event.task.copyWith(isDone: false)),
-          };
+    List<TaskModel> pendingTasks = List.from(state.pendingTasks);
+    List<TaskModel> completedTasks = List.from(state.completedTasks);
+
+    // Eğer görev tamamlanmamışsa
+    if (!event.task.isDone!) {
+      // Önce bu görevi pendingTasks listesinden kaldırın
+      pendingTasks.removeWhere((task) => task.title == event.task.title);
+      // Sonra completedTasks listesine ekle, isDone true olarak ayarlanmış şekilde
+      completedTasks.insert(
+          0,
+          TaskModel(
+            title: event.task.title,
+            description: event.task.description,
+            date: event.task.date,
+            isDone: true,
+            isDeleted: event.task.isDeleted,
+            isFavorite: event.task.isFavorite,
+          ));
+    } else {
+      // Eğer görev tamamlanmışsa
+      // Önce bu görevi completedTasks listesinden kaldırın
+      completedTasks.removeWhere((task) => task.title == event.task.title);
+      // Sonra pendingTasks listesine ekle, isDone false olarak ayarlanmış şekilde
+      pendingTasks.insert(
+          0,
+          TaskModel(
+            title: event.task.title,
+            description: event.task.description,
+            date: event.task.date,
+            isDone: false,
+            isDeleted: event.task.isDeleted,
+            isFavorite: event.task.isFavorite,
+          ));
+    }
+
     emit(TasksState(
       pendingTasks: pendingTasks,
       completedTasks: completedTasks,
@@ -88,8 +111,33 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
         favoriteTasks: state.favoriteTasks,
         deletedTasks: state.deletedTasks));
   }
-}
 
+  void _searchTask(SearchTaskEvent event, Emitter<TasksState> emit) {
+    final state = this.state;
+
+    // Önce tüm görevleri kopyalayın
+    List<TaskModel> pendingTasks = List.from(state.pendingTasks);
+    List<TaskModel> completedTasks = List.from(state.completedTasks);
+
+    // Pending task'leri arayın ve filtreleyin
+    List<TaskModel> filteredPendingTasks = pendingTasks.where((task) {
+      return task.title.toLowerCase().contains(event.task.toLowerCase());
+    }).toList();
+
+    // Completed task'leri arayın ve filtreleyin
+    List<TaskModel> filteredCompletedTasks = completedTasks.where((task) {
+      return task.title.toLowerCase().contains(event.task.toLowerCase());
+    }).toList();
+
+    // Yeni bir TasksState oluşturarak emit edin
+    emit(
+      state.copyWith(
+        pendingTasks: filteredPendingTasks,
+        completedTasks: filteredCompletedTasks,
+      ),
+    );
+  }
+}
 
 
 /*  void _favoriteOrUnfavoriteTask(

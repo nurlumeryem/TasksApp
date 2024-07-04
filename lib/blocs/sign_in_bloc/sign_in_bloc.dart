@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tasks_app/blocs/sign_in_bloc/sign_in_bloc_event.dart';
 import 'package:tasks_app/blocs/sign_in_bloc/sign_in_bloc_state.dart';

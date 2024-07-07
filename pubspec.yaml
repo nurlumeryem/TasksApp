@@ -41,13 +41,18 @@ dependencies:
   freezed: ^2.5.2
   http: ^1.2.0
   intl:
-  hydrated_bloc: ^9.1.5
   path_provider: ^2.1.3
   json_annotation:
   entity: ^3.0.2
+  go_router: ^14.2.0
+  
+  
+  
 
   user_repository:
     path: packages/user_repository
+  hive_flutter: ^1.1.0
+  hive: ^2.2.3
 
 dev_dependencies:
 
@@ -59,9 +64,12 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   build_runner: any
   json_serializable: ^6.8.0
+  hive_generator:
   flutter_test:
     sdk: flutter
   get_it: ^7.7.0
+
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -74,8 +82,7 @@ flutter:
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/profile.jpg
-    - assets/images/task.png
+    - assets/images/
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

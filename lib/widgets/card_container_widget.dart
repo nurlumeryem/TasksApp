@@ -7,9 +7,6 @@ class CardContainerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 45),
-      decoration: BoxDecoration(
-          color: bgColor, borderRadius: BorderRadius.circular(90)),
       child: child,
     );
   }

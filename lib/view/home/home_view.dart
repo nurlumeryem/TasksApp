@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tasks_app/bloc/bloc_exports.dart';
+import 'package:tasks_app/core/constants/app_assets.dart';
+import 'package:tasks_app/core/constants/app_constant.dart';
 import 'package:tasks_app/core/locator/locator.dart';
 import 'package:tasks_app/widgets/card_container_widget.dart';
 
@@ -34,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: deviceHeight / 3,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/images/header.png"),
+                    image: AssetImage(AppAssets.headerImage),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -42,16 +44,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Padding(
-                      padding: EdgeInsets.only(left: 16, top: 16),
+                      padding: AppConstant.padding10,
                       child: Row(
                         children: [
                           CircleAvatar(
-                            radius: 40,
-                            backgroundImage: NetworkImage(
-                              "https://as1.ftcdn.net/v2/jpg/01/16/24/44/1000_F_116244459_pywR1e0T3H7FPk3LTMjG6jsL3UchDpht.jpg",
-                            ),
+                              radius: AppConstant.radius50,
+                              backgroundImage:
+                                  AssetImage(AppAssets.profileImage)),
+                          SizedBox(
+                            width: AppConstant.width10,
                           ),
-                          SizedBox(width: 15),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -59,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 "Hey, Meryem Nurlu  👋",
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 27,
+                                  fontSize: AppConstant.font25,
                                   fontWeight: FontWeight.normal,
                                 ),
                               ),
@@ -72,16 +74,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       formattedDate,
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 20,
+                        fontSize: AppConstant.font20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: AppConstant.height10),
                     const Text(
                       "My Todo List",
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 35,
+                        fontSize: AppConstant.font35,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -103,9 +105,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Center(
                             child: Image.asset(
-                              'assets/images/work.png',
-                              width: 200,
-                              height: 200,
+                              AppAssets.workImage,
+                              width: AppConstant.width200,
+                              height: AppConstant.height200,
                             ),
                           ),
                           BlocBuilder<TasksBloc, TasksState>(
@@ -113,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               title: "Pending Tasks",
                               count: state.pendingTasks.length,
                               color: const Color.fromRGBO(103, 58, 183, 1),
-                              iconPath: 'assets/images/clock.png',
+                              iconPath: AppAssets.clocImage,
                             ),
                           ),
                           BlocBuilder<TasksBloc, TasksState>(
@@ -121,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               title: "Completed Tasks",
                               count: state.completedTasks.length,
                               color: Colors.deepPurple,
-                              iconPath: 'assets/images/time.png',
+                              iconPath: AppAssets.timeImage,
                             ),
                           ),
                           BlocBuilder<TasksBloc, TasksState>(
@@ -129,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               title: "Favorite Tasks",
                               count: state.favoriteTasks.length,
                               color: Colors.deepPurple,
-                              iconPath: 'assets/images/star.png',
+                              iconPath: AppAssets.starImage,
                             ),
                           ),
                         ],
@@ -172,8 +174,8 @@ class TaskBox extends StatelessWidget {
               right: 0,
               child: Image.asset(
                 iconPath,
-                width: 50,
-                height: 50,
+                width: AppConstant.width50,
+                height: AppConstant.height50,
               ),
             ),
             Center(
@@ -183,7 +185,7 @@ class TaskBox extends StatelessWidget {
                   Text(
                     title,
                     style: const TextStyle(
-                      fontSize: 20,
+                      fontSize: AppConstant.font20,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -193,7 +195,7 @@ class TaskBox extends StatelessWidget {
                     Text(
                       count.toString(),
                       style: const TextStyle(
-                        fontSize: 24,
+                        fontSize: AppConstant.font25,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),

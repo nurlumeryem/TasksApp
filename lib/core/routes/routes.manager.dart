@@ -5,9 +5,7 @@ import 'package:tasks_app/core/locator/locator.dart';
 import 'package:tasks_app/core/routes/routes.dart';
 import 'package:tasks_app/models/task_model.dart';
 import 'package:tasks_app/view/tasks/edit_task_view.dart';
-
 import 'package:tasks_app/view/main/main_view.dart';
-import '../../bloc/main_bloc/main_bloc.dart';
 
 final GoRouter router = GoRouter(
   routes: [

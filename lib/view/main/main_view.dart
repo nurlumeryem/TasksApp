@@ -9,7 +9,8 @@ import 'package:tasks_app/view/home/home_view.dart';
 import 'package:tasks_app/view/tasks/pending_view.dart';
 
 class MainView extends StatelessWidget {
-  MainView({super.key});
+  MainView({Key? key}) : super(key: key);
+
   final List<Widget> _pages = [
     const HomeScreen(),
     const PendingView(),
@@ -45,7 +46,7 @@ class MainView extends StatelessWidget {
 }
 
 class CustomBottomNavigationBar extends StatelessWidget {
-  const CustomBottomNavigationBar({super.key});
+  const CustomBottomNavigationBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -119,6 +120,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   }) {
     return IconButton(
       icon: Icon(icon),
+      iconSize: 32, // Larger icon size
       color: isSelected ? Colors.amber : Colors.black,
       onPressed: onTap,
     );
@@ -128,23 +130,28 @@ class CustomBottomNavigationBar extends StatelessWidget {
     required IconData icon,
     required VoidCallback onTap,
   }) {
-    return Container(
-      width: 66.0,
-      height: 66.0,
-      decoration: const BoxDecoration(
-        color: Colors.deepPurpleAccent,
-        shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 8.0,
-            offset: Offset(0, 4),
-          ),
-        ],
-      ),
-      child: IconButton(
-        icon: Icon(icon, color: Colors.white),
-        onPressed: onTap,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 70.0, // Larger width
+        height: 70.0, // Larger height
+        decoration: const BoxDecoration(
+          color: Colors.deepPurpleAccent,
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.orange,
+              blurRadius: 12.0, // Increased blur radius for more shadow effect
+              offset:
+                  Offset(0, 5), // Adjusted offset for better shadow position
+            ),
+          ],
+        ),
+        child: Icon(
+          icon,
+          color: Colors.white,
+          size: 45, // Larger icon size
+        ),
       ),
     );
   }

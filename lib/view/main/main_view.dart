@@ -12,7 +12,7 @@ class MainView extends StatelessWidget {
   MainView({Key? key}) : super(key: key);
 
   final List<Widget> _pages = [
-    const HomeScreen(),
+    const HomeView(),
     const PendingView(),
     const CompletedTasksScreen(),
     const FavoriteTasksScreen(),
@@ -120,7 +120,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   }) {
     return IconButton(
       icon: Icon(icon),
-      iconSize: 32, // Larger icon size
+      iconSize: 32,
       color: isSelected ? Colors.amber : Colors.black,
       onPressed: onTap,
     );
@@ -133,24 +133,23 @@ class CustomBottomNavigationBar extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 70.0, // Larger width
-        height: 70.0, // Larger height
+        width: 70.0,
+        height: 70.0,
         decoration: const BoxDecoration(
           color: Colors.deepPurpleAccent,
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
               color: Colors.orange,
-              blurRadius: 12.0, // Increased blur radius for more shadow effect
-              offset:
-                  Offset(0, 5), // Adjusted offset for better shadow position
+              blurRadius: 12.0,
+              offset: Offset(0, 5),
             ),
           ],
         ),
         child: Icon(
           icon,
           color: Colors.white,
-          size: 45, // Larger icon size
+          size: 45,
         ),
       ),
     );

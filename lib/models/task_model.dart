@@ -29,25 +29,7 @@ class TaskModel extends HiveObject with EquatableMixin {
     isDone = isDone ?? false;
   }
 
-  TaskModel copyWith({
-    String? title,
-    String? description,
-    String? date,
-    bool? isDone,
-    bool? isDeleted,
-    bool? isFavorite,
-  }) {
-    return TaskModel(
-      title: title ?? this.title,
-      description: description ?? this.description,
-      date: date ?? this.date,
-      isDone: isDone ?? this.isDone,
-      isDeleted: isDeleted ?? this.isDeleted,
-      isFavorite: isFavorite ?? this.isFavorite,
-    );
-  }
-
   @override
-  List<Object?> get props =>
-      [title, description, date, isDone, isDeleted, isFavorite];
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
 }

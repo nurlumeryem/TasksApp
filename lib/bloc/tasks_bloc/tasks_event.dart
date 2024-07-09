@@ -63,5 +63,3 @@ class SearchTaskEvent extends TasksEvent {
   @override
   List<Object> get props => [query];
 }
-
-class LoadTasksEvent extends TasksEvent {}

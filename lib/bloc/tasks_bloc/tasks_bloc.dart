@@ -15,16 +15,12 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     on<DeleteTaskEvent>(_deleteTask);
     on<FavoriteOrUnfavoriteTaskEvent>(_favoriteOrUnfavoriteTask);
     on<EditTaskEvent>(_editTask);
-    on<LoadTasksEvent>(_loadTask);
     on<SearchTaskEvent>(_searchTask);
-
-    add(LoadTasksEvent());
   }
 
   void _addTask(AddTaskEvent event, Emitter<TasksState> emit) {
-    final state = this.state;
     tasksBox.put(event.task.title, event.task);
-    emit(TasksState(
+    emit(state.copyWith(
         pendingTasks: List.from(state.pendingTasks)..add(event.task),
         completedTasks: state.completedTasks,
         favoriteTasks: state.favoriteTasks,
@@ -63,7 +59,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     }
     tasksBox.put(event.task.title, event.task);
 
-    emit(TasksState(
+    emit(state.copyWith(
       pendingTasks: pendingTasks,
       completedTasks: completedTasks,
       favoriteTasks: state.favoriteTasks,
@@ -72,13 +68,24 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
   }
 
   void _deleteTask(DeleteTaskEvent event, Emitter<TasksState> emit) {
-    final state = this.state;
+    // Hive'dan görevi sil
     tasksBox.delete(event.task.title);
-    emit(TasksState(
-      pendingTasks: List.from(state.pendingTasks)..remove(event.task),
-      completedTasks: List.from(state.completedTasks)..remove(event.task),
-      favoriteTasks: List.from(state.favoriteTasks)..remove(event.task),
-      deletedTasks: List.from(state.deletedTasks)..remove(event.task),
+
+    // Mevcut listelerden görevi sil
+    final List<TaskModel> pendingTasks = List.from(state.pendingTasks)
+      ..remove(event.task);
+    final List<TaskModel> completedTasks = List.from(state.completedTasks)
+      ..remove(event.task);
+    final List<TaskModel> favoriteTasks = List.from(state.favoriteTasks)
+      ..remove(event.task);
+
+    // Yeni durumu emit et
+    emit(state.copyWith(
+      pendingTasks: pendingTasks,
+      completedTasks: completedTasks,
+      favoriteTasks: favoriteTasks,
+      deletedTasks:
+          state.deletedTasks, // deletedTasks listesini güncellemiyoruz
     ));
   }
 
@@ -96,13 +103,10 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     tasksBox.put(event.task.title, event.task);
     emit(state.copyWith(
       favoriteTasks: favoriteTasks,
-      searchResults: [],
     ));
   }
 
   void _editTask(EditTaskEvent event, Emitter<TasksState> emit) {
-    final state = this.state;
-
     final newTask = event.newTask;
     final oldTask = event.oldTask;
     tasksBox.put(oldTask.title, newTask);
@@ -128,25 +132,11 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
         ..insert(0, newTask);
     }
 
-    emit(TasksState(
+    emit(state.copyWith(
       pendingTasks: pendingTasks,
       completedTasks: completedTasks,
       favoriteTasks: favoriteTasks,
       deletedTasks: state.deletedTasks,
-    ));
-  }
-
-  void _loadTask(LoadTasksEvent event, Emitter<TasksState> emit) {
-    List<TaskModel> tasks = tasksBox.values.toList();
-    emit(TasksState(
-      pendingTasks: tasks
-          .where((task) => task.isDone == false && task.isDeleted == false)
-          .toList(),
-      completedTasks: tasks
-          .where((task) => task.isDone == true && task.isDeleted == false)
-          .toList(),
-      favoriteTasks: tasks.where((task) => task.isFavorite).toList(),
-      deletedTasks: tasks.where((task) => task.isDeleted).toList(),
     ));
   }
 

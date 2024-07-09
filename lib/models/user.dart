@@ -3,31 +3,25 @@ import '../entities/entities.dart';
 
 class MyUser extends Equatable {
   final String userId;
-  final String name;
   final String email;
+  final String name;
 
   const MyUser({required this.userId, required this.email, required this.name});
 
-  //, bazı senaryolarda kullanıcı nesnesinin varsayılan bir değeri olarak kullanabileceğiniz sabit bir nesne sağlar.
   static const empty = MyUser(userId: '', email: '', name: '');
 
-  MyUser copyWith({
-    String? userId,
-    String? name,
-    String? email,
-  }) {
+  MyUser copyWith({String? userId, String? email, String? name}) {
     return MyUser(
-      userId: userId ?? this.userId,
-      name: name ?? this.name,
-      email: email ?? this.email,
-    );
+        userId: userId ?? this.userId,
+        email: email ?? this.email,
+        name: name ?? this.name);
   }
 
-  UserEntity toEntity() {
-    return UserEntity(userId: userId, email: email, name: name);
+  MyUserEntity toEntity() {
+    return MyUserEntity(userId: userId, email: email, name: name);
   }
 
-  static MyUser fromEntity(UserEntity entity) {
+  static MyUser fromEntity(MyUserEntity entity) {
     return MyUser(
         userId: entity.userId, email: entity.email, name: entity.name);
   }

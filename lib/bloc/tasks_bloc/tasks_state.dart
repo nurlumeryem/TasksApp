@@ -31,13 +31,13 @@ class TasksState extends Equatable {
     List<TaskModel>? completedTasks,
     List<TaskModel>? favoriteTasks,
     List<TaskModel>? deletedTasks,
-    required List<TaskModel> searchResults,
+    List<TaskModel>? searchResults,
   }) {
     return TasksState(
         pendingTasks: pendingTasks ?? this.pendingTasks,
         completedTasks: completedTasks ?? this.completedTasks,
         favoriteTasks: favoriteTasks ?? this.favoriteTasks,
         deletedTasks: deletedTasks ?? this.deletedTasks,
-        searchResults: searchResults);
+        searchResults: searchResults ?? this.searchResults);
   }
 }

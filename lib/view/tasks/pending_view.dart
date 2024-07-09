@@ -33,15 +33,14 @@ class PendingView extends StatelessWidget {
                   margin: const EdgeInsets.only(top: 10),
                   padding: const EdgeInsets.only(top: 5, left: 10),
                   decoration: BoxDecoration(
-                    color: Colors.white, // Yeni: Beyaz arka plan rengi
-                    borderRadius: BorderRadius.circular(
-                        30), // Yeni: Yay şeklinde kenarlık
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(30),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.8),
                         spreadRadius: 2,
                         blurRadius: 4,
-                        offset: const Offset(0, 2), // gölgenin yönü
+                        offset: const Offset(0, 2),
                       ),
                     ],
                   ),

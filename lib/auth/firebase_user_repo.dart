@@ -1,7 +1,8 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:user_repository/user_repository.dart';
+import 'package:tasks_app/auth/user_repo.dart';
+import 'package:tasks_app/models/user.dart';
 
 class FirebaseUserRepo implements UserRepository {
   final FirebaseAuth _firebaseAuth;
@@ -37,8 +38,6 @@ class FirebaseUserRepo implements UserRepository {
 
       myUser = myUser.copyWith(userId: user.user!.uid);
 
-      await setUserData(myUser);
-
       return myUser;
     } catch (e) {
       log(e.toString());
@@ -51,7 +50,7 @@ class FirebaseUserRepo implements UserRepository {
     try {
       await usersCollection
           .doc(myUser.userId)
-          .set(myUser.toEntity() as Map<String, dynamic>);
+          .set(myUser.toEntity().toDocument());
     } catch (e) {
       log(e.toString());
       rethrow;

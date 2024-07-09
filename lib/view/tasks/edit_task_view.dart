@@ -71,7 +71,7 @@ class EditTaskView extends StatelessWidget {
                               oldTask: oldTask, newTask: editedTask));
                           router.pop(); // Close the bottom sheet
                           router.go(Routes
-                              .main); // Navigate back to the pending tasks page
+                              .home); // Navigate back to the pending tasks page
                         },
                         child: const Text('Save'))
                   ],
